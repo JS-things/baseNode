@@ -1,6 +1,7 @@
 const { model } = require('mongoose')
 const Role = require('../models/role')
 const Usuario = require('../models/usuario')
+const { Categoria, Producto } = require('../models')
 
 
 const esRoleValido = async (rol = '') => {
@@ -11,9 +12,9 @@ const esRoleValido = async (rol = '') => {
 
 }
 
-const emailExiste = async (correo='') => {
+const emailExiste = async (correo = '') => {
 
-    const existeEmail=await Usuario.findOne({ correo });
+    const existeEmail = await Usuario.findOne({ correo });
     if (existeEmail) {
         throw new Error(`El correo ${correo} ya esta registrado `)
     }
@@ -24,7 +25,7 @@ const emailExiste = async (correo='') => {
 
 const existeUsuarioPorId = async (id) => {
 
-    const existeUsuario=await Usuario.findById({ id });
+    const existeUsuario = await Usuario.findById({ id });
     if (!existeUsuario) {
         throw new Error(`El id no existe ${id} `)
     }
@@ -33,9 +34,27 @@ const existeUsuarioPorId = async (id) => {
 }
 
 
+const existeCategoria = async (id) => {
+    const existeCategoria = await Categoria.findById( id );
+    if (!existeCategoria) {
+        throw new Error(`El id no existe ${id} `)
+    }
+}
+
+const existeProductoPorId = async( id ) => {
+
+    
+    const existeProducto = await Producto.findById(id);
+    if ( !existeProducto ) {
+        throw new Error(`El id no existe ${ id }`);
+    }
+}
+
 
 module.exports = {
     esRoleValido,
     emailExiste,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    existeCategoria ,
+    existeProductoPorId 
 }
